@@ -1,15 +1,15 @@
-# Text Embedding Compression Research
+# Embedding Ranking Research
 
-This repository implements a research framework for text compression using BERT and OpenAI embeddings. Given a reference word, it ranks the full vocabulary by cosine similarity and saves the results as hash tables for efficient lookup.
+This repository implements a research framework for vocabulary ranking using BERT and OpenAI embeddings. Given a reference word, it ranks the full vocabulary by cosine similarity and saves the results as hash tables for efficient lookup.
 
 ## 🎯 Project Overview
 
-The system creates vocabulary rankings based on semantic similarity to reference words, enabling analysis of text compression potential. It supports both BERT and OpenAI embedding models and provides comprehensive analysis tools.
+The system creates vocabulary rankings based on semantic similarity to reference words, enabling analysis of word relationships and semantic structures. It supports both BERT and OpenAI embedding models and provides comprehensive analysis tools.
 
 ## 📁 Project Structure
 
 ```
-text_embedding_compression/
+embedding_ranking_research/
 ├── embedding_ranker.py      # Core classes for embedding-based ranking
 ├── run.py                   # Main script for generating rankings
 ├── utils.py                 # Utility functions for analysis
@@ -29,7 +29,7 @@ text_embedding_compression/
 
 ```bash
 # Clone or navigate to the repository
-cd text_embedding_compression
+cd embedding_ranking_research
 
 # Install dependencies
 pip install -r requirements.txt
@@ -100,7 +100,7 @@ python utils.py
 
 - **Efficient Storage**: Hash tables with vocabulary items as keys and ranks as values
 - **Fast Lookup**: Optimized key structure (strings for BERT, IDs for OpenAI)
-- **Comprehensive Analysis**: Statistical analysis of compression potential
+- **Comprehensive Analysis**: Statistical analysis of semantic relationships
 - **Multiple Formats**: Support for both pickle (binary) and JSON (human-readable)
 - **Batch Processing**: Analyze multiple texts simultaneously
 
@@ -125,21 +125,21 @@ openai_ranker.save_ranking(openai_ranking, "learning", format="json")
 ### Analyze Text
 
 ```python
-from utils import get_text_ranks, analyze_text_compression
+from utils import get_text_ranks, analyze_text_ranking
 
 # Get ranks for text tokens
 text = "Machine learning algorithms are powerful"
 ranks = get_text_ranks("bertembeddingranker_machine_ranking.pkl", text, "bert")
 
 # Comprehensive analysis
-analysis = analyze_text_compression(
+analysis = analyze_text_ranking(
     "bertembeddingranker_machine_ranking.pkl", 
     text, 
     "bert", 
     show_details=True
 )
 
-print(f"Compression potential: {analysis['compression_potential']:.2%}")
+print(f"Semantic similarity: {analysis['semantic_similarity']:.2%}")
 print(f"Mean rank: {analysis['mean_rank']:.1f}")
 ```
 
@@ -161,15 +161,15 @@ results = batch_analyze_texts(
 )
 
 for result in results:
-    print(f"Text {result['text_id']}: {result['compression_potential']:.2%}")
+    print(f"Text {result['text_id']}: {result['semantic_similarity']:.2%}")
 ```
 
 ## 📊 Analysis Features
 
-### Compression Metrics
+### Ranking Metrics
 
 - **Mean Rank**: Average rank of tokens (lower = more similar to reference)
-- **Compression Potential**: Percentage of high-rank (dissimilar) tokens
+- **Semantic Similarity**: Percentage of high-similarity tokens
 - **Coverage**: Percentage of tokens found in vocabulary
 - **Rank Distribution**: Statistical analysis of rank patterns
 
@@ -238,7 +238,7 @@ The `analysis.ipynb` notebook provides:
 
 **CSV Export** (`analysis_results.csv`):
 ```csv
-Text_Name,Model,Reference_Word,Mean_Rank,Compression_Potential
+Text_Name,Model,Reference_Word,Mean_Rank,Semantic_Similarity
 Technical,BERT,machine,1250.5,0.25
 Simple,BERT,machine,2100.3,0.15
 ```
